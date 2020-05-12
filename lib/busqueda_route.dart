@@ -406,6 +406,3 @@ class BusquedaRoute extends StatelessWidget {
   }
 }
 
-//class BusquedaRouteState extends StateFullWidget {
-//
-//}
