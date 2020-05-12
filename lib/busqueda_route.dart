@@ -1,13 +1,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:himnario/data/coro_en_busqueda.dart';
+import 'package:himnario/minor_widgets/coro_en_busqueda.dart';
+import 'package:himnario/data/coro.dart';
 
-class BusquedaRoute extends StatelessWidget {
-  static const groupTonalidad = 1;
+class BusquedaRoute extends StatefulWidget {
+  @override
+  _BusquedaRouteState createState() => _BusquedaRouteState();
+}
+
+class _BusquedaRouteState extends State<BusquedaRoute> {
   bool checkboxTodosValue = true;
   bool checkboxRapidosValue = false;
   bool checkboxLentosValue = false;
   bool checkboxMediosValue = false;
+  static const groupTonalidad = 1;
+
+  TextEditingController editingController = TextEditingController();
+
+  var corosFiltrados = List<Coro>();
+  final todosCoros = fillCorosList();
+
+  var corosEnBusqueda = <CoroEnBusqueda>[];
 
   static const _nombres = <String>[
     "A Aquel que es Poderoso",
@@ -44,25 +57,76 @@ class BusquedaRoute extends StatelessWidget {
   ];
 
   static const _ids = <int>[1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6, 7];
+  static const _tiempos = <int>[1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6, 7];
+  static const _ordenes = <int>[1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6, 7];
 
   static const _status = <String>[
     "",
     "",
+    "n",
+    "",
+    "n",
     "Nuevo",
     "",
-    "Nuevo",
+    "",
+    "",
+    "nuevo",
+    "",
+    "n",
+    "n",
+    ""
+  ];
+
+  static const _cuerpos = <String>[
+    "",
+    "",
+    "n",
+    "",
+    "n",
     "Nuevo",
     "",
     "",
     "",
-    "Nuevo",
+    "nuevo",
     "",
-    "Nuevo",
-    "Nuevo",
+    "n",
+    "n",
     ""
   ];
 
   static const _tonalidades = <String>[
+    "F",
+    "C",
+    "G",
+    "C",
+    "Bb",
+    "Bb",
+    "Eb",
+    "F",
+    "C",
+    "F",
+    "C",
+    "Bb",
+    "Bb",
+    "Eb"
+  ];
+  static const _autMusica = <String>[
+    "F",
+    "C",
+    "F",
+    "C",
+    "Bb",
+    "Bb",
+    "Eb",
+    "F",
+    "C",
+    "F",
+    "C",
+    "Bb",
+    "Bb",
+    "Eb"
+  ];
+  static const _autLetra = <String>[
     "F",
     "C",
     "F",
@@ -79,7 +143,31 @@ class BusquedaRoute extends StatelessWidget {
     "Eb"
   ];
 
-  TextEditingController controller;
+  @override
+  void initState() {
+    corosFiltrados.addAll(todosCoros);
+    super.initState();
+  }
+
+  static List<Coro> fillCorosList() {
+    var lista = List<Coro>();
+    //eliminate this when paired with firebase pero si tendria que llenar la lista de coros aqui desde Firebase
+    for (var i = 0; i < _nombres.length; i++) {
+      lista.add(Coro(
+        id: _ids[i],
+        nombre: _nombres[i],
+        cuerpo: _cuerpos[i],
+        tonalidad: _tonalidades[i],
+        velocidad: _velocidades[i],
+        tiempo: _tiempos[i],
+        orden: _ordenes[i],
+        autorLetra: _autLetra[i],
+        autorMusica: _autMusica[i],
+        status: _status[i],
+      ));
+    }
+    return lista;
+  }
 
   Widget _buildCoroEnBusquedaWidget(List<CoroEnBusqueda> coros) {
     return ListView.builder(
@@ -88,14 +176,43 @@ class BusquedaRoute extends StatelessWidget {
     );
   }
 
-  Widget _buildSearchFieldWidget() {
-    return TextField(
-        controller: controller,
-        decoration: InputDecoration(hintText: "Buscar...")
-    );
+  void filterSearchResults(String query) {
+    print("query:$query 5");
+    List<Coro> tempSearchList = List<Coro>();
+    tempSearchList.addAll(todosCoros);
+    if (query.isNotEmpty) {
+      List<Coro> tempFilteredList = List<Coro>();
+      tempSearchList.forEach((coro) {
+        if (coro.nombre.contains(query)) {
+          tempFilteredList.add(coro);
+        }
+      });
+      setState(() {
+        corosFiltrados.clear();
+        corosFiltrados.addAll(tempFilteredList);
+      });
+    } else {
+      corosFiltrados.clear();
+      corosFiltrados.addAll(todosCoros);
+    }
+
+    corosEnBusqueda.clear();
+    for (var i = 0; i < corosFiltrados.length; i++) {
+      corosEnBusqueda.add(CoroEnBusqueda(
+        coro: corosFiltrados[i],
+      ));
+    }
   }
 
-  //TODO: update State
+  Widget _buildSearchFieldWidget() {
+    return TextField(
+        controller: editingController,
+        onChanged: (value) {
+          filterSearchResults(value);
+        },
+        decoration: InputDecoration(hintText: "Buscar..."));
+  }
+
   Widget _buildDialogContentWidget() {
     return Container(
       child: Column(
@@ -104,7 +221,8 @@ class BusquedaRoute extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Center(
               child: Text("Tonalidad",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0)),
+                  style:
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0)),
             ),
           ),
           Padding(
@@ -229,77 +347,86 @@ class BusquedaRoute extends StatelessWidget {
               ],
             ),
           ),
-          Column(children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Center(
-                child: Text("Velocidad",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0)),
-              ),
-            ),
-            Row(
-              children: <Widget>[
-                Column(
-                  children: <Widget>[Row(
-                    children: <Widget>[
-                      Text("Todos"),
-                      Checkbox(
-                        //TODO: has to change this value
-                        value: checkboxTodosValue,
-                        onChanged: (bool value){
-                          print(value);
-                          //TODO: setState
-                          //   setState(() {})
-                        },
-                      )
-                    ],
-                  ), Row(
-                    children: <Widget>[
-                      Text("Rapidos"),
-                      Checkbox(
-                        //TODO: has to change this value
-                        value: checkboxRapidosValue,
-                        onChanged: (bool value){
-                          print(value);
-                          //TODO: setState
-                          //   setState(() {})
-                        },
-                      )
-                    ],
-                  )],
+          Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: Text("Velocidad",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 20.0)),
                 ),
-                Column(
-                  children: <Widget>[Row(
+              ),
+              Row(
+                children: <Widget>[
+                  Column(
                     children: <Widget>[
-                      Text("Medios"),
-                      Checkbox(
-                        //TODO: has to change this value
-                        value: checkboxMediosValue,
-                        onChanged: (bool value){
-                          print(value);
-                          //TODO: setState
-                          //   setState(() {})
-                        },
+                      Row(
+                        children: <Widget>[
+                          Text("Todos"),
+                          Checkbox(
+                            //TODO: has to change this value
+                            value: checkboxTodosValue,
+                            onChanged: (bool value) {
+                              print(value);
+                              //TODO: setState
+                              //   setState(() {})
+                            },
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Text("Rapidos"),
+                          Checkbox(
+                            //TODO: has to change this value
+                            value: checkboxRapidosValue,
+                            onChanged: (bool value) {
+                              print(value);
+                              //TODO: setState
+                              //   setState(() {})
+                            },
+                          )
+                        ],
                       )
                     ],
-                  ), Row(
+                  ),
+                  Column(
                     children: <Widget>[
-                      Text("Lentos"),
-                      Checkbox(
-                        //TODO: has to change this value
-                        value: checkboxLentosValue,
-                        onChanged: (bool value){
-                          print(value);
-                          //TODO: setState
-                          //   setState(() {})
-                        },
+                      Row(
+                        children: <Widget>[
+                          Text("Medios"),
+                          Checkbox(
+                            //TODO: has to change this value
+                            value: checkboxMediosValue,
+                            onChanged: (bool value) {
+                              print(value);
+                              //TODO: setState
+                              //   setState(() {})
+                            },
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Text("Lentos"),
+                          Checkbox(
+                            //TODO: has to change this value
+                            value: checkboxLentosValue,
+                            onChanged: (bool value) {
+                              print(value);
+                              //TODO: setState
+                              //   setState(() {})
+                            },
+                          )
+                        ],
                       )
                     ],
-                  )],
-                )
-              ],
-            )
-          ],)
+                  )
+                ],
+              )
+            ],
+          )
         ],
       ),
     );
@@ -336,20 +463,16 @@ class BusquedaRoute extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final coros = <CoroEnBusqueda>[];
-
-    for (var i = 0; i < _nombres.length; i++) {
-      coros.add(CoroEnBusqueda(
-        nombre: _nombres[i],
-        velocidad: _velocidades[i],
-        tonalidad: _tonalidades[i],
-        id: _ids[i],
-        status: _status[i],
-      ));
+    if (corosEnBusqueda.isEmpty) {
+      for (var i = 0; i < corosFiltrados.length; i++) {
+        corosEnBusqueda.add(CoroEnBusqueda(
+          coro: corosFiltrados[i],
+        ));
+      }
     }
 
     final listView = Container(
-      child: _buildCoroEnBusquedaWidget(coros),
+      child: _buildCoroEnBusquedaWidget(corosEnBusqueda),
     );
 
     final appBar = AppBar(
@@ -405,4 +528,3 @@ class BusquedaRoute extends StatelessWidget {
     );
   }
 }
-

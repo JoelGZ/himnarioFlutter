@@ -1,39 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:himnario/coro_detail_route.dart';
+import 'package:himnario/data/coro.dart';
 
 final ColorSwatch secondaryTextColor = Colors.grey;
 final double detailFontSize = 13.0;
 
 class CoroEnBusqueda extends StatelessWidget {
-  final String nombre;
-  final String velocidad;
-  final String tonalidad;
-  final int id;
-  final String status;
+  final Coro coro;
 
   const CoroEnBusqueda({
-    @required this.nombre,
-    @required this.velocidad,
-    @required this.tonalidad,
-    @required this.id,
-    this.status,
-  })  : assert(nombre != null),
-        assert(velocidad != null),
-        assert(tonalidad != null),
-        assert(id != null);
+    @required this.coro,
+  }) : assert(coro != null);
 
   /// Returns a Container that indicates the status. (coro Nuevo o no)
   /// If no status is given Container is empty
   Widget _statusWidget(status) {
     Widget _container;
 
-    if (status != "") {
+    if (status.contains("n")) {
+      //status 'n' means coro nuevo, everything else doesn't matter talvez podria poner h para himno
       _container = Container(
           padding: EdgeInsets.all(2.0),
           decoration: BoxDecoration(
               color: Colors.red,
               borderRadius: BorderRadius.all(Radius.circular(5.0))),
           child: Text(
-            status,
+            "Nuevo",
             style: TextStyle(color: Colors.white, fontSize: detailFontSize),
           ));
     } else {
@@ -46,13 +38,22 @@ class CoroEnBusqueda extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var nombre = coro.nombre;
+    var velocidad = coro.velocidad;
+    var tonalidad = coro.tonalidad;
+    var id = coro.id;
+    var status = coro.status;
+
     return Material(
       child: Container(
         child: InkWell(
           splashColor: Colors.lightGreen,
           //TODO: Go to CoroDetailRoute
           //Send coro id
-          onTap: () => print("Coro seleccionado $status"),
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => CoroDetailRoute(coro: coro,)));
+          },
           child: Row(
             children: <Widget>[
               Expanded(
@@ -73,7 +74,7 @@ class CoroEnBusqueda extends StatelessWidget {
                           children: <Widget>[
                             Padding(
                               padding:
-                              const EdgeInsets.fromLTRB(0.0, 0.0, 4.0, 0.0),
+                                  const EdgeInsets.fromLTRB(0.0, 0.0, 4.0, 0.0),
                               child: Text("#$id",
                                   style: TextStyle(
                                       color: secondaryTextColor,
@@ -81,7 +82,7 @@ class CoroEnBusqueda extends StatelessWidget {
                             ),
                             Padding(
                               padding:
-                              const EdgeInsets.fromLTRB(0.0, 0.0, 4.0, 0.0),
+                                  const EdgeInsets.fromLTRB(0.0, 0.0, 4.0, 0.0),
                               child: Text(velocidad,
                                   style: TextStyle(
                                       color: secondaryTextColor,
@@ -100,7 +101,7 @@ class CoroEnBusqueda extends StatelessWidget {
                       tonalidad,
                       textAlign: TextAlign.right,
                       style:
-                      TextStyle(fontSize: 15.0, color: secondaryTextColor),
+                          TextStyle(fontSize: 15.0, color: secondaryTextColor),
                     ),
                   )),
             ],
