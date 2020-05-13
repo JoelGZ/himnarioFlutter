@@ -179,6 +179,7 @@ class CoroDetailRoute extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
+      ///https://www.youtube.com/watch?v=YuW-4OXy6SE
       body: CustomScrollView(
         slivers: <Widget>[
           SliverList(

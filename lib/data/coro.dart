@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 class Coro {
   final int id;
   final String nombre;
+  final String searchName;
   final String cuerpo;
   final String tonalidad;
   final String tonAlt;
@@ -22,6 +23,7 @@ class Coro {
   const Coro({
     @required this.id,
     @required this.nombre,
+    @required this.searchName,
     @required this.cuerpo,
     @required this.tonalidad,
     @required this.velocidad,
@@ -37,6 +39,7 @@ class Coro {
     this.tonAlt,
   })  : assert(id != null),
         assert(nombre != null),
+        assert(searchName != null),
         assert(cuerpo != null),
         assert(tonalidad != null),
         assert(velocidad != null),

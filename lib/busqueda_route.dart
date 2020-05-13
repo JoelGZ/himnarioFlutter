@@ -39,6 +39,23 @@ class _BusquedaRouteState extends State<BusquedaRoute> {
     "De Jehova Cantare yo las Misericordias"
   ];
 
+  static const _searchNames = <String>[
+    "a aquel que es poderoso",
+    "a cristo coronad",
+    "somos la circunsicion que alaba en espiritu",
+    "a jehova yo cantare",
+    "a el sea gloria y poder",
+    "a solas con dios",
+    "de jehova cantare yo las misericordias",
+    "a aquel que es poderoso",
+    "a cristo coronad",
+    "somos la circunsicion que alaba en espiritu",
+    "a jehova yo cantare",
+    "a el sea gloria y poder",
+    "a solas con dios",
+    "de jehova cantare yo las misericordias",
+  ];
+
   static const _velocidades = <String>[
     "Lento",
     "Medio",
@@ -156,6 +173,7 @@ class _BusquedaRouteState extends State<BusquedaRoute> {
       lista.add(Coro(
         id: _ids[i],
         nombre: _nombres[i],
+        searchName: _searchNames[i],
         cuerpo: _cuerpos[i],
         tonalidad: _tonalidades[i],
         velocidad: _velocidades[i],
@@ -177,13 +195,14 @@ class _BusquedaRouteState extends State<BusquedaRoute> {
   }
 
   void filterSearchResults(String query) {
-    print("query:$query 5");
     List<Coro> tempSearchList = List<Coro>();
     tempSearchList.addAll(todosCoros);
-    if (query.isNotEmpty) {
+
+    if (query.isNotEmpty || query != "") {
+      print("$query.5");
       List<Coro> tempFilteredList = List<Coro>();
       tempSearchList.forEach((coro) {
-        if (coro.nombre.contains(query)) {
+        if (coro.searchName.contains(query)) {
           tempFilteredList.add(coro);
         }
       });
@@ -192,8 +211,11 @@ class _BusquedaRouteState extends State<BusquedaRoute> {
         corosFiltrados.addAll(tempFilteredList);
       });
     } else {
-      corosFiltrados.clear();
-      corosFiltrados.addAll(todosCoros);
+      setState(() {
+        corosFiltrados.clear();
+        corosFiltrados.addAll(todosCoros);
+      });
+
     }
 
     corosEnBusqueda.clear();
