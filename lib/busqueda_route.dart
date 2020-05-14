@@ -52,7 +52,7 @@ class _BusquedaRouteState extends State<BusquedaRoute> {
     "de jehova cantare yo las misericordias",
     "a aquel que es poderoso",
     "a cristo coronad",
-    "somos la circunsicion que alaba en espiritu",
+    "a dios sea la gloria",
     "a jehova yo cantare",
     "a el sea gloria y poder",
     "a solas con dios",
