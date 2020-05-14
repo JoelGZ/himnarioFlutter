@@ -217,6 +217,18 @@ class CoroDetailRoute extends StatelessWidget {
           )
         ],
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.library_books),
+            title: Text("Letra")
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.library_music),
+              title: Text("Partitura")
+          ),
+        ]
+      ),
     );
   }
 }

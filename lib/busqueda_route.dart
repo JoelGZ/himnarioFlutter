@@ -345,7 +345,7 @@ class _BusquedaRouteState extends State<BusquedaRoute> {
                 filterSearchResults("", searchTonalidad, checkboxValues);
               });
             },
-            color: Colors.lightGreen,
+            color: Colors.blueGrey,
             child: Icon(Icons.filter_list, color: Colors.white),
           )
         ],
@@ -618,6 +618,7 @@ class _BusquedaRouteState extends State<BusquedaRoute> {
     }
 
     final listView = Container(
+      padding: EdgeInsets.fromLTRB(0.0,8.0,0.0,0.0),
       child: _buildCoroEnBusquedaWidget(corosEnBusqueda),
     );
 
