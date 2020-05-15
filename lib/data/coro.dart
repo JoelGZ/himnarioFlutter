@@ -18,7 +18,7 @@ class Coro {
 
   //no se si incluir estos dos ultimos
   final String audio;
-  final String partitura;
+  final String partitura;   //TODO make required
 
   const Coro({
     @required this.id,
