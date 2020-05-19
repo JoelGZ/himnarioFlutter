@@ -6,6 +6,7 @@ import 'package:himnario/partitura_route.dart';
 import 'package:himnario/coro_detail_letra.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'dart:async';
+import 'dart:io' as io;
 
 ///This Route is the "holder" for coro_detail_letra y partitura_route
 class CoroDetailRoute extends StatefulWidget {
@@ -23,9 +24,10 @@ class _CoroDetailRouteState extends State<CoroDetailRoute> {
   final Coro coro;
   int _currentTabIndex = 0;
   Icon appBarIcon = Icon(Icons.play_arrow);
-  bool playPauseFlag = true;  //true = show play
+  bool playPauseFlag = true; //true = show play
   var audioPlayer = AssetsAudioPlayer();
-  String audioFilePath;     //en init state lo hare = "assets/audios/$sName.mp3 siendo sName el sName separado por _ en vez de espacios
+  String
+      audioFilePath; //en init state lo hare = "assets/audios/$sName.mp3 siendo sName el sName separado por _ en vez de espacios
 
   _CoroDetailRouteState({
     @required this.coro,
@@ -36,11 +38,50 @@ class _CoroDetailRouteState extends State<CoroDetailRoute> {
     Navigator.of(context).pop(true);
   }
 
+  Future<bool> _loadAudio() async {
+    String path = "assets/audios/";
+    String coroFileName = coro.searchName.replaceAll(new RegExp(r' '), '_');
+    path = "$path$coroFileName.mp3";
+
+    try {
+      await audioPlayer.open(
+        Audio(path),
+      );
+
+      return true;
+    } catch (t) {
+      setState(() {
+        appBarIcon = Icon(Icons.clear);
+      });
+      _showMissingAudioFileAlert(context);
+      return false;
+    }
+  }
+
+  _showMissingAudioFileAlert(BuildContext context) {
+    return (showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Archivo no encontrado"),
+            content:
+                Text("Por favor pongase en contacto con el desarrollador."),
+            actions: <Widget>[
+              MaterialButton(
+                elevation: 5.0,
+                child: Text("OK"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        }));
+  }
 
   //if in landscape no appBar or tabbar is shown
-  Widget responsiveLayoutWidget (
+  Widget responsiveLayoutWidget(
       Orientation deviceOrientation, double shortestSide) {
-
     ///https://www.youtube.com/watch?v=elLkVWt7gRM
     ///If partitura tab is selected and we are in landscape and the device is a phone (<600)
     if (deviceOrientation == Orientation.landscape &&
@@ -60,19 +101,16 @@ class _CoroDetailRouteState extends State<CoroDetailRoute> {
               onPressed: () {
                 setState(() {
                   if (playPauseFlag) {
-                    audioPlayer.open(
-                      Audio("assets/audios/a_aquel_que_es_poderoso.mp3"),
-                    );
-                    audioPlayer.play();
                     appBarIcon = Icon(Icons.pause);
+                    playPauseFlag = !playPauseFlag;
+                    _loadAudio();
                   } else {
                     audioPlayer.pause();
                     appBarIcon = Icon(Icons.play_arrow);
+                    playPauseFlag = !playPauseFlag;
                   }
-                  playPauseFlag = !playPauseFlag;
                 });
-              }
-          )
+              })
         ],
       );
 
