@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:himnario/coro_detail_route.dart';
 import 'package:himnario/data/coro.dart';
 
-final ColorSwatch secondaryTextColor = Colors.grey;
+final ColorSwatch secondaryTextColor = Colors.grey[600];
 final double detailFontSize = 13.0;
 
 class CoroEnBusqueda extends StatelessWidget {
@@ -47,9 +47,7 @@ class CoroEnBusqueda extends StatelessWidget {
     return Material(
       child: Container(
         child: InkWell(
-          splashColor: Colors.lightGreen,
-          //TODO: Go to CoroDetailRoute
-          //Send coro id
+          splashColor: Colors.grey,
           onTap: () {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => CoroDetailRoute(coro: coro,)));
@@ -67,7 +65,7 @@ class CoroEnBusqueda extends StatelessWidget {
                           child: Text(
                             nombre,
                             //textAlign: TextAlign.left,
-                            style: TextStyle(fontSize: 17.0),
+                            style: TextStyle(fontSize: 16.0),
                           ),
                         ),
                         Row(

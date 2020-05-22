@@ -39,6 +39,7 @@ class _CoroDetailRouteState extends State<CoroDetailRoute> {
   }
 
   Future<bool> _loadAudio() async {
+    ///https://pub.dev/packages/assets_audio_player#-readme-tab-
     String path = "assets/audios/";
     String coroFileName = coro.searchName.replaceAll(new RegExp(r' '), '_');
     path = "$path$coroFileName.mp3";

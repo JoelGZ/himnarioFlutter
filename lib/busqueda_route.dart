@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:himnario/minor_widgets/coro_en_busqueda.dart';
 import 'package:himnario/data/coro.dart';
+import 'package:himnario/minor_widgets/drawer.dart';
 
 class BusquedaRoute extends StatefulWidget {
   @override
@@ -618,7 +619,7 @@ class _BusquedaRouteState extends State<BusquedaRoute> {
     }
 
     final listView = Container(
-      padding: EdgeInsets.fromLTRB(0.0,8.0,0.0,0.0),
+      padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 0.0),
       child: _buildCoroEnBusquedaWidget(corosEnBusqueda),
     );
 
@@ -626,19 +627,9 @@ class _BusquedaRouteState extends State<BusquedaRoute> {
       title: Text("Búsqueda"),
     );
 
-    //TODO: Implement navigation and styling
-    final drawer = Drawer(
-        child: ListView(
-      children: <Widget>[
-        ListTile(leading: Icon(Icons.search), title: Text("Búsqueda")),
-        ListTile(leading: Icon(Icons.list), title: Text("Mis Listas")),
-        ListTile(leading: Icon(Icons.settings), title: Text("Ajustes")),
-      ],
-    ));
-
     return Scaffold(
       appBar: appBar,
-      drawer: drawer,
+      drawer: CustomDrawer(),
       body: Container(
         child: Column(
           children: <Widget>[
