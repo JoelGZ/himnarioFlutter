@@ -11,7 +11,7 @@ class HimnarioAcEApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Himnario",
-      theme: ThemeData(primaryColor: Colors.grey[700]),
+      theme: ThemeData(primaryColor: Colors.grey[300]),
       home: BusquedaRoute(),
     );
   }
