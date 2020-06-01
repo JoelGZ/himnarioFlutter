@@ -367,9 +367,91 @@ class _BusquedaRouteState extends State<BusquedaRoute> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Center(
-                      child: Text("Tonalidad",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20.0)),
+                      child: Text(
+                        "Tonalidad",
+                        style: TextStyle(fontSize: 18.0),
+                      ),
+                    ),
+                  ),
+                  Row(
+                    children: <Widget>[
+                      //this row contains two columns
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: <Widget>[
+                          //each column contains three rows
+                          Row(
+                            //each row has a text and a radiobutton
+                            children: <Widget>[
+                              Text("Todos"),
+                              Radio(
+                                value: 1,
+                                groupValue: groupTonalidad,
+                                onChanged: (value) {
+                                  print(value);
+                                  setState(() {
+                                    groupTonalidad = value;
+                                  });
+                                },
+                              )
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Text("C"),
+                              Radio(
+                                value: 2,
+                                groupValue: groupTonalidad,
+                                onChanged: (value) {
+                                  print(value);
+                                  setState(() {
+                                    groupTonalidad = value;
+                                  });
+                                },
+                              )
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Text("Eb"),
+                              Radio(
+                                value: 3,
+                                groupValue: groupTonalidad,
+                                onChanged: (value) {
+                                  print(value);
+                                  setState(() {
+                                    groupTonalidad = value;
+                                  });
+                                },
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                      Text("otro column"),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: Text(
+                        "Velocidad",
+                        style: TextStyle(fontSize: 18.0),
+                      ),
+                    ),
+                  ),
+                  Text("filtros"),
+                ],
+              ),
+              /* Column(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: Text(
+                        "Tonalidad",
+                        style: TextStyle(fontSize: 18.0),
+                      ),
                     ),
                   ),
                   Padding(
@@ -377,7 +459,6 @@ class _BusquedaRouteState extends State<BusquedaRoute> {
                     child: Column(
                       children: <Widget>[
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Column(
                               children: <Widget>[
@@ -489,8 +570,7 @@ class _BusquedaRouteState extends State<BusquedaRoute> {
                         padding: const EdgeInsets.all(8.0),
                         child: Center(
                           child: Text("Velocidad",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 20.0)),
+                              style: TextStyle(fontSize: 18.0)),
                         ),
                       ),
                       Row(
@@ -577,7 +657,7 @@ class _BusquedaRouteState extends State<BusquedaRoute> {
                     ],
                   )
                 ],
-              ),
+              ),*/
             ),
             actions: <Widget>[
               MaterialButton(

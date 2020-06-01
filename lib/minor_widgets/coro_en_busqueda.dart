@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:himnario/coro_detail_route.dart';
 import 'package:himnario/data/coro.dart';
 
-final ColorSwatch secondaryTextColor = Colors.grey[600];
+final ColorSwatch secondaryTextColor = Colors.grey;
 final double detailFontSize = 13.0;
 
 class CoroEnBusqueda extends StatelessWidget {
