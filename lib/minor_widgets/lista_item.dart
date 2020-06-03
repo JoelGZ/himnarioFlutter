@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:himnario/data/lista.dart';
+import 'package:himnario/lista_detail_route.dart';
 
-final ColorSwatch secondaryTextColor = Colors.grey[600];
+final ColorSwatch secondaryTextColor = Colors.grey;
 
 class ListaItem extends StatelessWidget {
   final Lista lista;
@@ -23,8 +24,10 @@ class ListaItem extends StatelessWidget {
 
       child: InkWell(
         splashColor: Colors.grey,
-        //TODO: onTap
-        onTap: (){},
+        onTap: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => ListaDetailRoute(lista: lista,)));
+        },
         child: Container(
           padding: EdgeInsets.fromLTRB(12.0, 12.0, 4.0, 12.0),
           child: Row(
