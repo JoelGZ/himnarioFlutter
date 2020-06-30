@@ -119,6 +119,8 @@ class _CoroDetailRouteState extends State<CoroDetailRoute> {
         appBar: appBar,
         body: tabs[_currentTabIndex],
         bottomNavigationBar: BottomNavigationBar(
+          selectedItemColor: Colors.black38,
+          unselectedItemColor: Colors.black12,
           currentIndex: _currentTabIndex,
           items: [
             BottomNavigationBarItem(

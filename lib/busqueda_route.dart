@@ -27,7 +27,7 @@ class _BusquedaRouteState extends State<BusquedaRoute> {
   var corosEnBusqueda = <CoroEnBusqueda>[];
 
   static const _nombres = <String>[
-    "A Aquel que es Poderoso",
+    "A Aquel que es Poderoso B",
     "A Cristo Coronad",
     "Somos la Circunsicion que Alaba en Espiritu",
     "A Jehova yo Cantare",
@@ -99,7 +99,7 @@ class _BusquedaRouteState extends State<BusquedaRoute> {
   ];
 
   static const _cuerpos = <String>[
-    "",
+    "A Aquel que es poderoso,\npara guardarnos sin caer.\nY presentarnos ante Su trono de amor.\nSea gloria y majestad por los siglos, amen!\nMuy grande y fiel es nuestro Salvador!",
     "",
     "n",
     "",
